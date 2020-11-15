@@ -1,3 +1,4 @@
+ #-*- coding: utf-8 -*-
 import requests
 import ntplib
 from datetime import datetime
@@ -23,6 +24,7 @@ def check_time(d):
 
 
 def main(url=''):
+    home_work()	
     if not url:
         print("No URL passed to function")
         return False
@@ -39,12 +41,23 @@ def main(url=''):
     return True
 
 
+
 def home_work():
-    # Ваш захист
-    pass
+    c = ntplib.NTPClient()
+    response = c.request('0.ua.pool.ntp.org', version=3)
+    d =datetime.fromtimestamp(response.tx_time).time().strftime('%p')
+    if "AM" in d:
+        return "Good night"
+    elif "PM" in d:  
+        return "Good day"
+
+ 
+
+    
 
 
 if __name__ == "__main__":
+    print(home_work())
     a = "="*40
     print(a + "\nРезультат без параметрів: ")
     main()
